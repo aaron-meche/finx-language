@@ -1,0 +1,96 @@
+
+
+//
+// Program 1: Simple Authentication System
+//
+def username: String = null
+def password: String = null
+
+fin reqAddress: String = '127.0.0.24:8080'
+def comChannel = null
+
+func void main() {
+    sys.print("--  Authentication System  --")
+    sys.print("[1] Login to Existing Account")
+    sys.print("[2] Create New Account")
+    sys.print("--")
+    comChannel = new WebConversation(reqAddress)
+    def input: String = sys.prompt("Enter: ")
+    
+    if input.equals("1") {
+        handleLogin()
+    }
+    else if input.equals("2") {
+        handleRegister()
+    }
+    else {
+        sys.print("Input not recognized")
+        Abort
+    }
+}
+
+func void handleLogin() {
+    def usernameInput: String = sys.prompt("Enter Username: ")
+    def passwordInput: String = sys.prompt("Enter Password: ")
+    def loginResponse: String = comChannel.GET([
+        "auth", 
+        "match", 
+        usernameInput, 
+        passwordInput
+    ])
+    if loginResponse.equals("success") {
+        sys.print("Login Sucessful")
+    }
+    else if loginResponse.equals("failure") {
+        sys.print("Login Failure. Try Again")
+        handleLogin()
+    }
+    else {
+        sys.print("There was an error.")
+        Abort
+    }
+}
+
+func void handleRegister() {
+    def fnameInput: String = sys.prompt("First Name: ")
+    def lnameInput: String = sys.prompt("Last Name: ")
+    def usernameInput: String = sys.prompt("New Username: ")
+    def passwordInput: String = sys.prompt("New Password: ")
+    def passwordConfirmInput: String = sys.prompt("Confirm Password: ")
+
+    // Check if Username is Available
+    def usernameAvailable: String = comChannel.GET([
+        "auth",
+        "username-available",
+        usernameInput
+    ])
+    if usernameAvailable.equals("failure") {
+        sys.print("Username not available. Try again.")
+        register()
+    }
+
+    // Check if Passwords Match
+    if !passwordInput.equals(passwordConfirmInput) {
+        sys.print("Passwords do not match. Try again.")
+        register()
+    }
+
+    def accountCreationStatus = comChannel.GET([
+        "auth",
+        "register",
+        usernameInput,
+        passwordInput
+    ])
+
+    if accountCreationStatus.equals("success") {
+        sys.print("Account created!")
+    }
+    else if accountCreationStatus.equals("failure") {
+        sys.print("Account not created.")
+        Abort
+    }
+    else {
+        sys.print("There was an error.")
+        Abort
+    }
+}

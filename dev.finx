@@ -138,28 +138,22 @@ say DailySpendTable
 
 // comment
 
-import Finx
+def ChaseCSV: String = ""
+ChaseCSV.Append(@'./Sapphire.csv')
+ChaseCSV.Append(@'./FreedomUnlimited.csv')
+ChaseCSV.Append(@'./FreedomFlex.csv')
+def ChaseTable: Table = new Table(ChaseCSV)
+GetUserFeedback(ChaseCSV)
 
-func CombineCSV(tables) {
-    def table = new DataTable()
-}
-
-def ChaseCSV = CombineCSV([
-    ReadFile('./pool/Sapphire.csv'),
-    ReadFile('./pool/FreedomUnlimited.csv'),
-    ReadFile('./pool/FreedomFlex.csv')
-])
-
-def BlueCashCSV = CombineCSV([
-    ReadFile('./pool/BlueCash24.csv'),
-    ReadFile('./pool/BlueCash25.csv')
-])
+def AmexCSV: String = ""
+AmexCSV.Append(@'./BlueCash.csv')
+def AmexTable: Table = new Table("Chase")
 
 def FullTable = new DataTable(["Date", "Description", "Amount"])
 FullTable.AppendCSV(ChaseCSV, [0, 1, 3])
 FullTable.AppendCSV(BlueCashCSV, [0, 1 ,4])
 
-def DayList = FullTable.ListColumn(0)
+def DayList = FullTable.ListColumn()
 def DailySpendList = FullTable.ListSumIf(DayList, 0, 2)
 def DailySpendTable = new DataTable(
     ["Date", "Amount"],

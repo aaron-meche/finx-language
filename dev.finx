@@ -139,11 +139,16 @@ say DailySpendTable
 // comment
 
 def ChaseCSV: String = ""
-ChaseCSV.Append(@'./Sapphire.csv')
-ChaseCSV.Append(@'./FreedomUnlimited.csv')
-ChaseCSV.Append(@'./FreedomFlex.csv')
+ChaseCSV = ChaseCSV + @'./Sapphire.csv'
+ChaseCSV = ChaseCSV + @'./FreedomUnlimited.csv'
+ChaseCSV = ChaseCSV + @'./FreedomFlex.csv'
 def ChaseTable: Table = new Table(ChaseCSV)
-GetUserFeedback(ChaseCSV)
+
+var.define("ChaseCSV", "String", "")
+var.edit("ChaseCSV", var.read("ChaseCSV") + file.read('./Sapphire.csv'))
+var.edit("ChaseCSV", var.read("ChaseCSV") + file.read('./FreedomUnlimited.csv'))
+var.edit("ChaseCSV", var.read("ChaseCSV") + file.read('./FreedomFlex.csv'))
+var.define("ChaseTable", "Table", new Table(var.read("ChaseCSV")))
 
 def AmexCSV: String = ""
 AmexCSV.Append(@'./BlueCash.csv')

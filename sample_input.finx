@@ -1,0 +1,6 @@
+
+
+
+fin ConstantValue: String = "Constant"
+
+constants.define("ConstantValue", "String", "Constant")

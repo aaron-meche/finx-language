@@ -1,0 +1,39 @@
+
+
+
+import finx
+import http
+import auth from './auth.finx'
+
+fin port: String = "8080"
+def server: Object = null
+
+func void main() {
+    server = new http.Server(port, (req, res) => handleRouting(req, res))
+}
+
+func void handleRouting(Object req, Object res) {
+    def path: Array = http.ParseReq(req)
+
+    switch path[0] {
+        "auth" {
+            switch path[1] {
+                "login" {
+                    def loginReq: String = auth.reqLogin(path[2], path[3])
+                }
+                "register" {
+                    def registerReq: String = auth.reqRegister(path[2], path[3])
+                }
+                "match" {
+                    def matchReq: String = auth.reqMatch(path[2], path[3])
+                }
+            }
+        }
+        "data" {
+
+        }
+        else {
+
+        }
+    }
+}

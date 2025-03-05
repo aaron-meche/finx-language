@@ -1,0 +1,29 @@
+
+// Aaron's Finx Language
+
+def Query<CSV>
+def FileRead => CSVFileRead
+
+Table Sapphire24 = FileRead("data/Sapphire24.csv")
+Table Sapphire25 = FileRead("data/Sapphire25.csv")
+Table FreedomUnlimited24 = FileRead("data/FreedomUnlimited24.csv")
+Table FreedomUnlimited24 = FileRead("data/FreedomUnlimited25.csv")
+Table FreedomFlex24 = FileRead("data/FreedomFlex24.csv")
+Table FreedomFlex25 = FileRead("data/FreedomFlex25.csv")
+Table BlueCash24 = FileRead("data/BlueCash24.csv")
+Table BlueCash25 = FileRead("data/BlueCash25.csv")
+
+Query ChaseCSVArray = [
+    Sapphire24, Sapphire25, 
+    FreedomUnlimited24, FreedomUnlimited25
+    FreedomFlex24, FreedomFlex25
+]
+
+Query AmexCSVArray = [
+    BlueCash24, BlueCash25
+]
+
+Query ChaseCSV = CSV.Consolidate(ChaseCSVArray)
+Query AmexCSV = CSV.Consolidate(AmexCSVArray)
+
+Query FormattedChaseCSV = new 

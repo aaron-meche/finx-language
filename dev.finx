@@ -1,0 +1,169 @@
+
+
+
+prog Financial Program
+    March 4, 2025
+
+
+
+
+
+
+
+def name = "Aaron"
+
+func changeName() {
+    name = "Naaron"
+}
+
+
+
+
+//
+// Finx Programming Language
+//
+// This is an example of a program
+// that combines CSVs of credit card
+// purchases and will perform data
+// analysis tasks on that data.
+//
+
+import Finx
+
+
+//
+// Define a new class "ChargeTable" with the
+// template of an imported (@) data type
+// "DataTable" that takes in an array of 
+// column headers as its first input
+//
+class ChargeTable is @DataTable[
+    "Description",
+    "Date",
+    "Amount"
+]
+
+
+//
+// ref is a File Reference
+//
+ref Sapphire24 = './pool/Sapphire24.csv'
+ref Sapphire25 = './pool/Sapphire25.csv'
+ref FreedomUnlimited24 = './pool/FreedomUnlimited24.csv'
+ref FreedomUnlimited25 = './pool/FreedomUnlimited25.csv'
+ref FreedomFlex24 = './pool/FreedomFlex24.csv'
+ref FreedomFlex25 = './pool/FreedomFlex25.csv'
+
+
+//
+// def is a variable declaration
+// This creates a variable "ChaseCSV"
+// with the content of the return value
+// of the imported function "CombineCSV"
+// that takes in an array of file references
+// and subsequently reads all files, parses
+// csv into storable data, and combines it
+// all and returns the .
+//
+def ChaseCSV = @CombineCSV([
+    Sapphire24, Sapphire25,
+    FreedomUnlimited24, FreedomUnlimited25,
+    FreedomFlex24, FreedomFlex25
+])
+
+
+//
+// Same thing, file references
+//
+ref BlueCash24 = './pool/BlueCash24.csv'
+ref BlueCash25 = './pool/BlueCash25.csv'
+
+
+//
+// And another combined csv variable
+//
+def BlueCashCSV = @CombineCSV([
+    BlueCash24, BlueCash25
+])
+
+
+//
+// This defined a new instance of
+// class ChargeTable. Here no @ is necessary
+// because it is a domestically defined
+// reference.
+// man means to perform an action on 
+// (manipulate) essentially a call to
+// the functions of class ChargeTable, which is 
+// an instance of the imported DataTable. 
+// Here we are called the function AppendCSV 
+// of the DataTable to add rows to the table
+// from the content of the CSVs, the
+// second input, the array of numbers
+// represent from which columns the function
+// should source its data. In this instance,
+// "Description" from SapphireCSV column 0
+// "Date" from SapphireCSV column 1
+// "Amount" from SapphireCSV column 3
+//
+def FullTable = new ChargeTable()
+man FullTable => @AppendCSV(SapphireCSV, [0, 1, 3])
+man FullTable => @AppendCSV(BlueCashCSV, [0, 1 ,4])
+
+//
+// After this, FullTable is a table with three
+// previously defined columns, and rows of data
+// from the SapphireCSV and BlueCashCSV variables
+//
+
+//
+// Now we will perform some simple data analysis
+//
+
+def DayList = FullTable.ListColumn(0)
+def DailySpendList = FullTable.ListSumIf(DayList, 0, 2)
+def DailySpendTable = new @DataTable([
+    "Date",
+    "Amount"
+])
+man DailySpendTable => @Append(0, DayList)
+man DailySpendTable => @Append(1, DailySpendList)
+say DailySpendTable
+
+
+
+
+
+
+
+
+
+import Finx
+
+class ChargeTable extends @DataTable["Date", "Description", "Amount"]
+
+ref Sapphire = './pool/Sapphire.csv'
+ref FreedomUnlimited = './pool/FreedomUnlimited.csv'
+ref FreedomFlex = './pool/FreedomFlex.csv'
+
+def ChaseCSV = @CombineCSV([Sapphire, FreedomUnlimited, FreedomFlex])
+
+ref BlueCash24 = './pool/BlueCash24.csv'
+ref BlueCash25 = './pool/BlueCash25.csv'
+
+def BlueCashCSV = @CombineCSV([BlueCash24, BlueCash25])
+
+def FullTable = new @DataTable["Date", "Description", "Amount"]
+man FullTable < @AppendCSV(SapphireCSV, [0, 1, 3])
+man FullTable < @AppendCSV(BlueCashCSV, [0, 1 ,4])
+
+def DayList = FullTable.ListColumn(0)
+def DailySpendList = FullTable.ListSumIf(DayList, 0, 2)
+def DailySpendTable = new @DataTable([
+    "Date",
+    "Amount"
+])
+
+man DailySpendTable > @Append(0, DayList)
+man DailySpendTable > @Append(1, DailySpendList)
+out DailySpendTable > output.csv

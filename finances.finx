@@ -1,0 +1,20 @@
+
+
+
+import finx
+import finxance
+
+def CreditCards: Table = ["name", "balance", "limit"]
+
+CreditCards.insertRow([
+    ["Apple Card", 1080, 5500],
+    ["Chase Sapphire", 858, 11500]
+])
+
+def totalBalance = SumColumn(CreditCards, "balance")
+def totalLimit = SumColumn(CreditCards, "limit")
+
+CreditCards.appendRow([
+    ["", totalBalance, totalLimit],
+    ["", "Ulitization:", totalBalance / totalLimit]
+])œ

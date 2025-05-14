@@ -69,6 +69,12 @@ func void handleRegister() {
         register()
     }
 
+
+    def instance: Object = new Table(username, "Text")
+    def instance: Object = GetUserInput(username, "Text")
+    def instance: Object = System.UserIn(username, "Text")
+
+
     // Check if Passwords Match
     if !passwordInput.equals(passwordConfirmInput) {
         sys.print("Passwords do not match. Try again.")

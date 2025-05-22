@@ -1,0 +1,76 @@
+
+
+
+
+
+
+
+
+
+// Finx Programming Language
+// 
+
+// In this program, we are going to be writing a sample API with local file access
+//
+// lets call it FinxDB!
+
+import finx
+import finxfileio
+import finxserver
+
+def port: Number = 5000
+
+def server: FinxServer = {
+    port: port,
+    onstart: () => {
+        act system.print("Server Hosting on http://localhost:" + port)
+    },
+    onerror: (err) => {
+        act system.print("Error!", err)
+    }
+    onget: (req) => {
+        act system.print("GET Request")
+        act system.print(req)
+        routeHander(req)
+    }
+}
+
+func routeHandler(req) {
+    def path: String = req.read("path")
+
+}
+
+// now let's write the FinxServer class
+//
+
+import finx_http_std
+def FinxServer: Class = {
+    construct(obj) {
+
+    }
+}
+
+
+
+// let's do something else where we can write the full code for the class
+//
+
+def Locker: Class = {
+    construct() {
+
+    }
+}
+
+func main() {
+    def package: Locker = {
+        password: "ginger",
+        contents: [
+            FinxFileRead("./file/001"),
+            FinxFileRead("./file/002"),
+            FinxFileRead("./file/003")
+        ].join("\n")
+    }
+    def encrypted: String = package.lock()
+    FinxFileWrite("./output.txt", encrypted)
+    
+}

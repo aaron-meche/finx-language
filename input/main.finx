@@ -1,0 +1,84 @@
+
+import finxui
+import server
+
+def l0 = 0.08
+def l1 = 0.12
+
+def NavItem = {
+    display: "inline-block",
+    margin_right: "8pt",
+    font_size: "14pt",
+    color: "red",
+    cursor: "pointer"
+}
+
+def NavigationBar: Widget = {
+    style: {
+        background: new Shade(l1),
+        padding: "12pt 24pt",
+        color: "white"
+    },
+    content: [
+        new Widget({
+            content: "Home",
+            style: NavItem
+        }),
+        new Widget({
+            content: "Watch",
+            style: NavItem
+        })
+    ]
+}
+
+def VideoDisplay: Widget = {
+    style: {
+        height: "200px",
+        width: "400px",
+        margin: "50px",
+        background: new Shade(l1)
+    },
+    content: [
+        "Hi"
+    ]
+}
+
+def VideoData: Widget = {
+    style: {
+        height: "50px"
+    }
+}
+
+func getPageContent(path) {
+    def pageMap = {
+        "home": [
+            NavigationBar
+        ],
+        "watch": [
+            NavigationBar,
+            VideoDisplay
+        ]
+    }
+    return pageMap?.[path]
+}
+
+func getScreen(path) {
+    def templateScreen: FinxScreen = {
+        title: "Finx UI / " + path,
+        content: getPageContent(path),
+        style: {
+            background: "black",
+            color: "white"
+        }
+    }
+    return templateScreen
+}
+
+def server: FinxServer = {
+    port: 3080,
+    routes: {
+        "/": getScreen("home"),
+        "/watch": getScreen("watch")
+    },
+    start: true
+}

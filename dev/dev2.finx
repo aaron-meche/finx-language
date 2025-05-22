@@ -1,0 +1,86 @@
+import finx
+import finxui
+
+def String: Class = {
+    construct(val) {
+        this.value = val.toString()
+    }
+}
+def Number: Class = {
+    construct(val) {
+        this.value = Number(val)
+    }
+}
+def View: Class = {
+    construct(val) {
+        this.type = val.read("type")
+        this.content = val.read("content")
+    }
+    run() {
+
+    }
+}
+
+def HorizontalStretchBox: Class = {
+    construct(val) {
+        this.style = val.read("style")
+        this.content = val.read("content")
+    }
+}
+
+func NavigationBar() {
+    def navElements: Array = [
+        ["Home", "/"],
+        ["TV Shows", "/tv-shows"],
+        ["Movies", "/movies"]
+    ]
+    def navbar: HorizontalStretchBox = () => {
+        style: {
+            width: Viewport.screenWidth()
+            background: Color.black()
+        }
+        content: [
+            ProfilePicture(),
+            navElements.forEach(elem => {
+                TextButton(elem[0], {
+                    onclick: () => {
+                        Router.open(elem[1])
+                    }
+                })
+            }) 
+        ]
+    }
+    return navbar()
+}
+
+def homeScreen: View = () => {
+    type: "vstack"
+    content: [
+        NavigationBar()
+    ]
+}
+
+def watchScreen: View = (path) => {
+    type: "vstack",
+    content: [
+        NavigationBar(),
+        VideoDisplay(path),
+        VideoData(path)
+    ]
+}
+
+// comment
+func main() {
+    def name: String = "Aaron Meche"
+    let name = new String("Aaron Meche")
+
+    def server: FinxUIServer = {
+        port: 4000,
+        routes: {
+            "/": homeScreen(),
+            "/watch/%w": watchScreen(%w),
+        }
+    }
+
+    act server.run()
+}

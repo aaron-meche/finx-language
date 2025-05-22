@@ -1,0 +1,28 @@
+class String = {
+    constructor(val) {
+        this.val = val.toString()
+    }
+    print() {
+        console.log(this.val)
+    }
+    toString() {
+        return this.val
+    }
+    valueOf() {
+        return this.val
+    }
+}
+class Num = {
+    constructor(val) {
+        this.val = Number(val)
+    }
+    print() {
+        console.log(this.val)
+    }
+    toString() {
+        return this.val.toString()
+    }
+    valueOf() {
+        return this.val
+    }
+}

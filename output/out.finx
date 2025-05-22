@@ -1,0 +1,84 @@
+0|>|
+0|import|finxui
+0|import|server
+0|>|
+0|def|l0|=|0.08
+0|def|l1|=|0.12
+0|>|
+0|def|NavItem|=|{
+4|>|display: "inline-block",
+4|>|margin_right: "8pt",
+4|>|font_size: "14pt",
+4|>|color: "red",
+4|>|cursor: "pointer"
+0|>|}
+0|>|
+0|def|NavigationBar|Widget|{
+4|>|style: {
+8|>|background: new Shade(l1),
+8|>|padding: "12pt 24pt",
+8|>|color: "white"
+4|>|},
+4|>|content: [
+8|>|new Widget({
+12|>|content: "Home",
+12|>|style: NavItem
+8|>|}),
+8|>|new Widget({
+12|>|content: "Watch",
+12|>|style: NavItem
+8|>|})
+4|>|]
+0|>|}
+0|>|
+0|def|VideoDisplay|Widget|{
+4|>|style: {
+8|>|height: "200px",
+8|>|width: "400px",
+8|>|margin: "50px",
+8|>|background: new Shade(l1)
+4|>|},
+4|>|content: [
+8|>|"Hi"
+4|>|]
+0|>|}
+0|>|
+0|def|VideoData|Widget|{
+4|>|style: {
+8|>|height: "50px"
+4|>|}
+0|>|}
+0|>|
+0|func|getPageContent|(path)|{
+4|def|pageMap|=|{
+8|>|"home": [
+12|>|NavigationBar
+8|>|],
+8|>|"watch": [
+12|>|NavigationBar,
+12|>|VideoDisplay
+8|>|]
+4|>|}
+4|>|return pageMap?.[path]
+0|>|}
+0|>|
+0|func|getScreen|(path)|{
+4|def|templateScreen|FinxScreen|{
+8|>|title: "Finx UI / " + path,
+8|>|content: getPageContent(path),
+8|>|style: {
+12|>|background: "black",
+12|>|color: "white"
+8|>|}
+4|>|}
+4|>|return templateScreen
+0|>|}
+0|>|
+0|def|server|FinxServer|{
+4|>|port: 3080,
+4|>|routes: {
+8|>|"/": getScreen("home"),
+8|>|"/watch": getScreen("watch")
+4|>|},
+4|>|start: true
+0|>|}
